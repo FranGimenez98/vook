@@ -1,0 +1,48 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fcfcfc;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* @media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input {
+  @apply text-gray-600 py-1 px-3 text-base bg-[#f3f3f4] outline-none rounded-lg h-[35px] transition-all duration-200 hover:bg-white outline-[3px] hover:outline-[#e0aaff]/40;
+}
+
+.button {
+  @apply bg-[#9d4edd] rounded-lg text-center text-white hover:bg-[#e0aaff] transition duration-200;
+}
+
+.alt_button {
+  @apply py-1 px-2 text-sm text-center border-gray-200 border-[1px] rounded-md hover:bg-slate-50 transition duration-200;
+}
+/* primary:  9d4edd
+secondary : 7b2cbf
+primary-light: f8ebff
+bg-dark: 10002b
+light-blue: 4ea8de */
