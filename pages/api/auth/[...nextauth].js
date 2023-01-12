@@ -26,7 +26,7 @@ export default NextAuth({
   providers: [
     CredentialsProvider({
       id: "credentials",
-      name: "Credentials",
+      name: "credentials",
       authorize: async (credentials) => {
         const user = await prisma.user.findFirst({
           where: {
@@ -54,5 +54,8 @@ export default NextAuth({
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+  },
   secret: process.env.NEXTAUTH_SECRET,
 });

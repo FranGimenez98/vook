@@ -36,7 +36,7 @@ export default function LoginScreen() {
             password: "",
           }}
           onSubmit={async (values) => {
-            await signIn("credentials", {
+            return await signIn("credentials", {
               redirect: false,
               email: values.email,
               password: values.password,
