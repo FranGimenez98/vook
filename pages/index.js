@@ -37,7 +37,7 @@ export default function Home(props) {
           return res.data;
         }
       } catch (e) {
-        console.log("Error getting timeline");
+        console.log({error: e});
       }
     },
     {
@@ -78,6 +78,8 @@ export default function Home(props) {
       </div>
     );
   }
+
+  console.log({error: error})
 
   return (
     <Layout title="Home" user={props.userData}>

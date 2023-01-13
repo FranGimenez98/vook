@@ -59,8 +59,8 @@ async function handler(req, res) {
 
       return res.json({
         timeline,
-        nextId: timeline.length !== limit | timeline.length === limit ? timeline[limit - 1].id : undefined
-        // nextId: timeline?.length >= limit ? timeline[limit - 1].id : undefined,
+        // nextId: timeline.length !== limit | timeline.length === limit ? timeline[limit - 1].id : undefined
+        nextId: timeline?.length >= limit ? timeline[limit - 1].id : undefined,
       });
       //   .json({
       //     timeline,

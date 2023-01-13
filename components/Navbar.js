@@ -9,10 +9,10 @@ import axios from "axios";
 export default function Navbar({ status, session, user }) {
   const [users, setUsers] = useState("");
   const [query, setQuery] = useState("");
-  console.log("users", users.users);
+  console.log("users", users);
 
   const filteredUsers = query
-    ? users?.users.filter((user) =>
+    ? users?.filter((user) =>
         user.username.toLowerCase().includes(query.toLowerCase())
       )
     : [];
@@ -33,7 +33,7 @@ export default function Navbar({ status, session, user }) {
         <div>
           <Link href="/">
             <a>
-              <h1 className="font-bold text-xl md:text-2xl text-[#9d4edd]">
+              <h1 className="font-bold text-lg hidden md:flex md:text-2xl text-[#9d4edd]">
                 VOOK
               </h1>
             </a>
@@ -47,7 +47,7 @@ export default function Navbar({ status, session, user }) {
                   query
                     ? "bg-white border-gray-100 border-[0.5px] shadow-md border-b-0  outline-none hover:outline-transparent"
                     : "bg-[#f3f3f4]"
-                } text-gray-600 py-1 px-3 text-base  outline-none rounded-lg h-[35px] transition-all duration-200 hover:bg-white outline-[3px] hover:outline-[#e0aaff]/40 flex gap-1 md:gap-2 items-center`}
+                } text-gray-600 py-1 px-3 text-base  outline-none rounded-lg w- h-[35px] transition-all duration-200 hover:bg-white outline-[3px] hover:outline-[#e0aaff]/40 flex gap-1 md:gap-2 items-center`}
               >
                 <FaSearch className="text-slate-700" />
                 <Combobox.Input

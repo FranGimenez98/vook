@@ -5,21 +5,8 @@ const prisma = new PrismaClient();
 
 async function handler(req, res) {
   if (req.method === "GET") {
-    const limit = 7;
-    const cursor = req.query.cursor ?? "";
-    const users = await prisma.user.findMany({
-      skip: cursor !== "" ? 1 : 0,
-      take: limit,
-    });
-    return res
-      .status(200)
-      .json({
-        users,
-        nextId:
-          (users.length !== limit) | (users.length === limit)
-            ? users[limit - 1].id
-            : undefined,
-      });
+    const users = await prisma.user.findMany();
+    return res.status(200).json(users);
   }
   if (req.method === "POST") {
     try {
