@@ -33,7 +33,7 @@ export default function Navbar({ status, session, user }) {
         <div>
           <Link href="/">
             <a>
-              <h1 className="font-bold text-xl flex md:text-2xl text-[#9d4edd]">
+              <h1 className="font-bold text-lg md:flex md:text-2xl text-[#9d4edd]">
                 VOOK
               </h1>
             </a>
@@ -41,7 +41,7 @@ export default function Navbar({ status, session, user }) {
         </div>
         {session && (
           <div className="flex items-center justify-center w-full h-6">
-            <Combobox as="div" className="md:w-[50%] relative border-xl">
+            <Combobox as="div" className="md:w-[50%] w-[85%] relative border-xl">
               <div
                 className={`${
                   query
@@ -55,7 +55,7 @@ export default function Navbar({ status, session, user }) {
                     setQuery(event.target.value);
                   }}
                   placeholder="Search users..."
-                  className="outline-none bg-transparent text-sm text-slate-500 font-light"
+                  className="outline-none bg-transparent text-sm text-slate-500 font-light w-[50%] md:w-full"
                 />
               </div>
 
