@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
+import * as Yup from "yup";
+
+const postSchema = Yup.object().shape({
+  title: Yup.string()
+    .required("Title is required!")
+    .min(5, "Title is too short!")
+    .max(20, "Title is too long!"),
+  description: Yup.string()
+    .max(100, "Description is too long!")
+});
 
 export default function CreatePost({ open, onClose, userId, refreshData }) {
-
   return (
     <Dialog
       open={open}
@@ -27,19 +36,26 @@ export default function CreatePost({ open, onClose, userId, refreshData }) {
                 title: values.title,
                 description: values.description,
                 userUserId: userId,
-              }); 
+              });
               if (res.status < 300) {
                 refreshData();
                 onClose();
               }
-        
-              return res
+
+              return res;
             }}
+            validationSchema={postSchema}
           >
             <Form className="w-[80%]">
               <div className="flex flex-col">
                 <label className="mb-1 font-normal">Title</label>
                 <Field type="text" name="title" className="input w-full" />
+                <ErrorMessage
+                  name="title"
+                  render={(msg) => (
+                    <div className="text-red-500 text-sm mt-2">{msg}</div>
+                  )}
+                />
               </div>
               <div className="flex flex-col">
                 <label className="my-1 font-normal">Description</label>
@@ -48,6 +64,12 @@ export default function CreatePost({ open, onClose, userId, refreshData }) {
                   type="text"
                   name="description"
                   className="w-full h-[4rem]  resize-none text-gray-600 py-1 px-3 text-base bg-[#f3f3f4] outline-none rounded-lg  transition-all duration-200 hover:bg-white outline-[3px] hover:outline-[#e0aaff]/40"
+                />
+                <ErrorMessage
+                  name="description"
+                  render={(msg) => (
+                    <div className="text-red-500 text-sm mt-2">{msg}</div>
+                  )}
                 />
               </div>
               <div>

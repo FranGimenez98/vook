@@ -33,7 +33,7 @@ export default function Navbar({ status, session, user }) {
         <div>
           <Link href="/">
             <a>
-              <h1 className="font-bold text-lg hidden md:flex md:text-2xl text-[#9d4edd]">
+              <h1 className="font-bold text-xl flex md:text-2xl text-[#9d4edd]">
                 VOOK
               </h1>
             </a>

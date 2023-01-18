@@ -50,7 +50,7 @@ export default function PostScreen({ post, userData }) {
           type: "FETCH_SUCCESS",
           payload: post.comments,
         });
-        setComment(post.comments)
+        setComment(post.comments);
 
         likesContext.dispatch({ type: "FETCH_REQUEST" });
         likesContext.dispatch({ type: "FETCH_SUCCESS", payload: post.likes });
@@ -111,21 +111,18 @@ export default function PostScreen({ post, userData }) {
 
   const handleDeleteComment = async (id) => {
     try {
-      commentsContext.dispatch({type: "DELETE_REQUEST"})
+      commentsContext.dispatch({ type: "DELETE_REQUEST" });
       const { data } = await axios.delete(`/api/comment/`, {
         data: { id: id },
       });
       console.log("delete_data", data);
-      commentsContext.dispatch({type: "DELETE_SUCCESS"})
-      const deleteComment = comment.filter((c) => c.id !== id)
-      setComment(deleteComment)
+      commentsContext.dispatch({ type: "DELETE_SUCCESS" });
+      const deleteComment = comment.filter((c) => c.id !== id);
+      setComment(deleteComment);
     } catch (err) {
       console.log("data", err);
     }
   };
-
-
-
 
   return (
     <Layout user={userData}>
@@ -143,29 +140,36 @@ export default function PostScreen({ post, userData }) {
             <PostOptions />
           </div>
         )}
-        <div className="flex w-full gap-2 items-center mt-4 mb-2">
+        <div className="flex w-full gap-2 items-center mt-4 mb-2 ">
           <Link href={`/${post.User?.username}`}>
-            <div className="rounded-full w-10 h-10">
-              <img src={post.User?.image} className="rounded-full w-full h-full object-cover bg-center" />
+            <div className="rounded-full w-10 h-10 cursor-pointer border-gray-100 border-[0.5px]">
+              <img
+                src={post.User?.image}
+                className="rounded-full w-full h-full object-cover bg-center"
+              />
             </div>
           </Link>
-          <h2 className="text-lg font-medium">{post.User?.username}</h2>
+          <Link href={`/${post.User?.username}`}>
+            <h2 className="text-lg font-medium cursor-pointer">{post.User?.username}</h2>
+          </Link>
         </div>
         <div className=" w-full">
           {/* <div className=" mt-2 text-xl">
             <p>{post.title}</p>
           </div> */}
           <div className=" mb-2 text-xl">
-            <p>{post.description}</p>
+            <p>{post?.description}</p>
           </div>
         </div>
-        <div className="hidden md:flex w-full bg-[#fafafa] max-h-[30rem] rounded-lg">
+        <div
+          className="hidden md:flex w-full bg-[#fafafa] max-h-[30rem] rounded-lg cursor-pointer "
+          onClick={() => {
+            handleOpen(), handleImage(post);
+          }}
+        >
           <img
             src={post.image}
             className="max-h-[26rem] w-auto m-auto"
-            onClick={() => {
-              handleOpen(), handleImage(post);
-            }}
             alt="image"
           />
         </div>
@@ -181,18 +185,24 @@ export default function PostScreen({ post, userData }) {
         <div className="w-full mt-[1rem]">
           <div>
             {likes?.some((like) => like.userUserId === user?.userId) ? (
-              <div>
+              <div className="flex items-center gap-1">
                 <AiFillHeart
                   className="text-[1.7rem] text-red-500 hover:text-red-400 cursor-pointer"
                   onClick={() => handleDislike(likeId?.id)}
                 />
+                <p className="text-base text-slate-500 text-center">
+                  {likes?.length} likes
+                </p>
               </div>
             ) : (
-              <div>
+              <div className="flex items-center gap-1">
                 <AiOutlineHeart
                   className="text-[1.7rem] text-black hover:text-gray-400 cursor-pointer"
                   onClick={() => handleLike(post?.id, user?.userId)}
                 />
+                <p className="text-base text-slate-500">
+                  {likes?.length} likes
+                </p>
               </div>
             )}
           </div>
@@ -227,7 +237,14 @@ export default function PostScreen({ post, userData }) {
           </Formik>
           <div className="mt-[1.5rem]">
             {comment.map((comment) => (
-              <Comment key={comment.id} comment={comment} userData={userData} post={post} sessionUser={user} handleDeleteComment={handleDeleteComment}/>
+              <Comment
+                key={comment.id}
+                comment={comment}
+                userData={userData}
+                post={post}
+                sessionUser={user}
+                handleDeleteComment={handleDeleteComment}
+              />
             ))}
           </div>
         </div>

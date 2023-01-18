@@ -66,18 +66,18 @@ export default function UpdateProfile({ user, open, onClose, refreshData }) {
     >
       <Dialog.Overlay className="fixed inset-0 bg-gray-500/75" />
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="w-full max-w-lg max-h-[30rem] rounded-lg bg-white p-2 flex items-center flex-col overflow-y-scroll">
+        <Dialog.Panel className="w-full max-w-md max-h-[30rem] rounded-lg bg-white p-2 flex items-center flex-col ">
           <Formik
             initialValues={{
               firstName: user?.firstName,
-              lastName: user?.lastName,
+              // lastName: user?.lastName,
               description: user?.description,
             }}
             onSubmit={async (values) => {
               const res = await axios.put("api/users", {
                 id: user.userId,
                 firstName: values.firstName,
-                lastName: values.lastName,
+                // lastName: values.lastName,
                 description: values.description,
 
                 image: profilePic,
@@ -93,7 +93,7 @@ export default function UpdateProfile({ user, open, onClose, refreshData }) {
             }}
           >
             <Form className="w-[98%] h-full relative flex items-center flex-col">
-              <div className="w-full h-[8rem] bg-red-200 rounded-lg relative">
+              <div className="w-full h-[8rem] bg-purple-100 rounded-lg relative">
                 {banner && (
                   <img
                     src={banner}
@@ -139,10 +139,10 @@ export default function UpdateProfile({ user, open, onClose, refreshData }) {
                     className="input w-full"
                   />
                 </div>
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <label className="mb-1 font-normal">Last name</label>
                   <Field type="text" name="lastName" className="input w-full" />
-                </div>
+                </div> */}
                 <div className="flex flex-col">
                   <label className="my-1 font-normal">Description</label>
                   <Field
@@ -155,8 +155,8 @@ export default function UpdateProfile({ user, open, onClose, refreshData }) {
               </div>
 
               <div>
-                <button type="submit" className="button px-2 py-1 mt-3 mb-1">
-                  Create
+                <button type="submit" className="button px-2 py-1 mt-5 mb-2">
+                  Update
                 </button>
               </div>
             </Form>

@@ -66,7 +66,7 @@ export default function ProfileScreen({ user, userLoggedData }) {
       (f) => f.userId !== userLoggedData.userId
     );
     setFollows(unfollow);
-    setUserData(userUnfollow)
+    setUserData(userUnfollow);
   };
 
   return (
@@ -75,7 +75,7 @@ export default function ProfileScreen({ user, userLoggedData }) {
       user={user}
       image={userLoggedData.image}
     >
-      <div className="h-full w-full bg-white md:border-gray-100 md:border-[1px] md:border-t-0">
+      <div className="min-h-screen w-full bg-white md:border-gray-100 md:border-[1px] md:border-t-0">
         <div className="flex flex-col h-full">
           <div className="h-52 w-full bg-purple-100 relative flex justify-center">
             <img src={user?.banner} className="object-cover bg-center w-full" />
@@ -122,9 +122,7 @@ export default function ProfileScreen({ user, userLoggedData }) {
                 <span className="text-slate-700">following</span>
               </div>
               <div>
-                <span className="font-medium">
-                  {userData?.length}{" "}
-                </span>
+                <span className="font-medium">{userData?.length} </span>
                 <span className="text-slate-700">followers</span>
               </div>
             </div>
@@ -147,44 +145,50 @@ export default function ProfileScreen({ user, userLoggedData }) {
               </p>
             </div>
           </div>
-        </div>
-        <div className="p-1 mt-3 md:mt-7 flex justify-center flex-col h-full">
-          <div className="px-2 mb-1 flex items-center gap-2">
-            <span className="font-semibold">VOOKS</span>
-            {session?.user.userId === user?.userId && (
-              <button
-                className="button rounded-full w-5 h-5 bg-red-200 flex items-center justify-center"
-                onClick={() => handleOpen()}
-              >
-                <BsPlusLg className="text-xs" />
-              </button>
-            )}
-          </div>
-          <div className=" grid grid-cols-3 lg:grid-cols-4 gap-2 md:px-0 h-full px-2">
-            {user?.Vook.map((vook) => (
-              <Link href={`/vook/${vook.id}`} key={vook.id}>
-                <a>
-                  <div className="relative h-[7rem] md:h-[15rem] bg-purple-100 rounded-md">
-                    <div className="p-2 w-full absolute bottom-0  flex items-center rounded-b-lg h-8 md:h-9 bg-gradient-to-t from-black/50 to-transparent">
-                      <p className="text-white text-sm">{vook.title}</p>
-                    </div>
 
-                    {vook.Post.length <= 0 ? (
-                      <div className="flex items-center justify-center h-full w-full">
-                        <BsFillCameraFill className="text-2xl text-purple-300" />
+          <div className="p-1 mt-3 md:mt-7 flex justify-center flex-col h-full">
+            <div className="px-2 mb-1 flex items-center gap-1">
+              <div className="flex items-center gap-1">
+                <span className="font-semibold text-lg">VOOKS</span>
+                {session?.user.userId === user?.userId && (
+                  <button
+                    className="button rounded-full w-5 h-5 bg-red-200 flex items-center justify-center"
+                    onClick={() => handleOpen()}
+                  >
+                    <BsPlusLg className="text-xs" />
+                  </button>
+                )}
+              </div>
+              <div className="ml-2">
+                <p className="text-sm font-normal text-slate-400">{user?.Vook.length} total</p>
+              </div>
+            </div>
+            <div className=" grid grid-cols-3 lg:grid-cols-4 gap-2 md:px-0 h-full px-2">
+              {user?.Vook.map((vook) => (
+                <Link href={`/vook/${vook.id}`} key={vook.id}>
+                  <a>
+                    <div className="relative h-[7rem] md:h-[15rem] bg-purple-100 rounded-md">
+                      <div className="p-2 w-full absolute bottom-0  flex items-center rounded-b-lg h-8 md:h-9 bg-gradient-to-t from-black/50 to-transparent">
+                        <p className="text-white text-sm">{vook.title}</p>
                       </div>
-                    ) : (
-                      <img
-                        src={
-                          vook.Post.length <= 0 ? "Nada" : vook.Post[0].image
-                        }
-                        className="h-[7rem] md:h-[15rem] w-full rounded-md object-cover"
-                      />
-                    )}
-                  </div>
-                </a>
-              </Link>
-            ))}
+
+                      {vook.Post.length <= 0 ? (
+                        <div className="flex items-center justify-center h-full w-full">
+                          <BsFillCameraFill className="text-2xl text-purple-300" />
+                        </div>
+                      ) : (
+                        <img
+                          src={
+                            vook.Post.length <= 0 ? "Nada" : vook.Post[0].image
+                          }
+                          className="h-[7rem] md:h-[15rem] w-full rounded-md object-cover"
+                        />
+                      )}
+                    </div>
+                  </a>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -1,14 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { BsFillCameraFill } from "react-icons/bs";
 import axios from "axios";
+import * as Yup from "yup";
+import Loader from "./Loader/Loader";
+
+const postSchema = Yup.object().shape({
+  title: Yup.string()
+    .required("Title is required!")
+    .min(5, "Title is too short!")
+    .max(50, "Title is too long!"),
+  description: Yup.string().max(100, "Description is too long!"),
+});
 
 export default function CreateVook({ open, onClose, vookData, refreshData }) {
   const [image, setimage] = useState("");
   const [loading, setLoading] = useState("");
-  console.log('vookdata',vookData);
+  console.log("image", image.length);
 
   const handleOnChange = async (e) => {
     const files = e.target.files;
@@ -58,27 +68,32 @@ export default function CreateVook({ open, onClose, vookData, refreshData }) {
                 userUserId: vookData.vook.User.userId,
               });
 
-              if(res.status === 200){
-                refreshData()
-                onClose()
+              if (res.status === 200) {
+                refreshData();
+                onClose();
               }
             }}
+            validationSchema={postSchema}
           >
             <Form className="w-[80%]">
               <div className="min-h-[15rem] bg-purple-100 mb-1 rounded-lg flex items-center justify-center cursor-pointer relative">
                 <input
                   type="file"
-                  name="banner"
-                  className="absoute z-50 opacity-0 h-full w-full cursor-pointer"
+                  name="image"
+                  className="absoute z-50 opacity-0 min-h-[15rem] w-full cursor-pointer"
                   onChange={handleOnChange}
                 />
-                {loading && <p>Is Loading...</p>}
+
                 {image ? (
                   <img
                     src={image}
                     className="object-cover bg-center w-full absolute h-[15rem] rounded-lg"
                     alt="image"
                   />
+                ) : loading ? (
+                  <div className="w-full absolute flex items-center justify-center">
+                    <Loader />
+                  </div>
                 ) : (
                   <BsFillCameraFill className="text-4xl text-purple-300 text-center absolute " />
                 )}
@@ -86,6 +101,12 @@ export default function CreateVook({ open, onClose, vookData, refreshData }) {
               <div className="flex flex-col">
                 <label className="mb-1 font-normal">Title</label>
                 <Field type="text" name="title" className="input w-full" />
+                <ErrorMessage
+                  name="title"
+                  render={(msg) => (
+                    <div className="text-red-500 text-sm mt-2">{msg}</div>
+                  )}
+                />
               </div>
               <div className="flex flex-col">
                 <label className="my-1 font-normal">Description</label>
@@ -94,6 +115,12 @@ export default function CreateVook({ open, onClose, vookData, refreshData }) {
                   type="text"
                   name="description"
                   className="w-full h-[4rem]  resize-none text-gray-600 py-1 px-3 text-base bg-[#f3f3f4] outline-none rounded-lg  transition-all duration-200 hover:bg-white outline-[3px] hover:outline-[#e0aaff]/40"
+                />
+                <ErrorMessage
+                  name="description"
+                  render={(msg) => (
+                    <div className="text-red-500 text-sm mt-2">{msg}</div>
+                  )}
                 />
               </div>
 

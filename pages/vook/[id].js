@@ -80,7 +80,7 @@ export default function VookScreen(props) {
         onClose={() => setIsOpenDelete(false)}
         vookData={props.vook}
       />
-      <div className="mt-[4rem] md:w-[85vw] min-h-[calc(100vh-3rem)] flex flex-col items-center px-4 bg-white md:rounded-lg border-gray-100 border-[0.5px] pt-[0.5rem]">
+      <div className="w-screen mt-[4rem] md:w-[85vw] min-h-[calc(100vh-3rem)] flex flex-col items-center px-4 bg-white md:rounded-lg border-gray-100 border-[0.5px] pt-[0.5rem]">
         <div className="flex flex-col justify-start w-full mb-3">
           <div className="flex flex-col mb-6 w-full">
             <div className="flex items-center gap-2">

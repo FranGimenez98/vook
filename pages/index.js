@@ -11,6 +11,8 @@ import {
   userSuggestionsReducer,
   initialState,
 } from "../reducers/userSuggestionsReducer";
+import { BsFillCameraFill } from "react-icons/bs";
+import Loader from "../components/Loader/Loader";
 
 export default function Home(props) {
   const [state, dispatch] = useReducer(userSuggestionsReducer, initialState);
@@ -37,7 +39,7 @@ export default function Home(props) {
           return res.data;
         }
       } catch (e) {
-        console.log({error: e});
+        console.log({ error: e });
       }
     },
     {
@@ -59,7 +61,7 @@ export default function Home(props) {
     fetchSuggestionsUsers();
   }, [inView, fetchNextPage, hasNextPage, props.users]);
 
-  if (isLoading) return <div>Is Loading...</div>;
+  // if (isLoading) return <div>Is Loading...</div>;
   if (isError) return <div>Error</div>;
 
   const handleFollowUser = async (followingId) => {
@@ -71,19 +73,11 @@ export default function Home(props) {
     setSuggestions(suggestions.filter((u) => u.userId !== followingId));
   };
 
-  if (!data) {
-    return (
-      <div>
-        <h1>No hay nada</h1>
-      </div>
-    );
-  }
-
-  console.log({error: error})
+  console.log({ error: error });
 
   return (
     <Layout title="Home" user={props.userData}>
-      <div className="mt-[4rem] md:w-[85vw] min-h-[calc(100vh-3rem)] flex flex-col items-center px-4 bg-white md:rounded-lg border-gray-100 border-[0.5px]">
+      <div className="mt-[4rem] w-screen md:w-[85vw] min-h-[calc(100vh-3rem)] flex flex-col items-center px-4 bg-white  md:rounded-lg border-gray-100 border-[0.5px]">
         <div className="flex flex-col w-full">
           <div className="mt-2 mb-2">
             <h2 className="text-lg md:text-base font-medium ">
@@ -92,7 +86,11 @@ export default function Home(props) {
           </div>
 
           <div className="flex justify-between gap-11 md:w-[90%]">
-            {props.userData.following.length === 0 ? (
+            {isLoading ? (
+              <div className="w-full h-full flex items-center justify-center mt-[10rem]">
+                <Loader />
+              </div>
+            ) : props.userData.following.length === 0 ? (
               <div>No seguis a nadie loco fijate</div>
             ) : (
               data && (
@@ -137,6 +135,7 @@ export default function Home(props) {
                 </div>
               )
             )}
+
             <div className="w-[20%] flex-col gap-5 hidden md:flex">
               <div>
                 <div>
@@ -148,12 +147,19 @@ export default function Home(props) {
                   {props?.userData?.Vook.length ? (
                     props?.userData?.Vook?.slice(0, 3).map((vook, i) => (
                       <Link key={i} href={`/vook/${vook?.id}`}>
-                        <div className="relative">
-                          <img
-                            src={vook.Post[0]?.image}
-                            className=" w-[17rem] h-[7rem] object-cover bg-center rounded-lg"
-                            alt="profile-pic"
-                          />
+                        <div className="relative w-[17rem] h-[7rem]">
+                          {vook.Post.length === 0 ? (
+                            <div className="bg-purple-100 w-[17rem] h-[7rem] rounded-lg flex items-center justify-center">
+                              <BsFillCameraFill className="text-2xl text-purple-300" />
+                            </div>
+                          ) : (
+                            <img
+                              src={vook.Post[0]?.image}
+                              className=" w-[17rem] h-[7rem] object-cover bg-center rounded-lg"
+                              alt="profile-pic"
+                            />
+                          )}
+
                           <div className="h-[2rem] p-2 w-full absolute bottom-0 flex items-center gap-2 rounded-b-lg bg-gradient-to-t from-black/60 to-transparent">
                             <h1 className="absolute z-10 bottom-0 left-1 p-1 text-white">
                               {vook.title}
@@ -209,7 +215,15 @@ export default function Home(props) {
             </div>
           </div>
         </div>
-        {isFetchingNextPage && <div>Is Loading...</div>}
+        {isFetchingNextPage && (
+          <div className="w-full flex items-center justify-start">
+            <div className="w-[68%] flex items-center justify-center">
+              <Loader />
+            </div>
+          </div>
+        )}
+
+        {/* {isFetchingNextPage && <Loader />} */}
         <span style={{ visibility: "hidden" }} ref={ref}>
           intersection observer marker
         </span>
