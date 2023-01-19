@@ -122,7 +122,7 @@ export default function Home(props) {
                                       />
                                     </div>
                                   </div>
-                                  <span className="text-white cursor-pointer text-lg md:text-xs">
+                                  <span className="text-white cursor-pointer text-lg md:text-xs truncate">
                                     {post?.User?.username}
                                   </span>
                                 </div>

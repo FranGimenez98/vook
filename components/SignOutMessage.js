@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react"
 
 export default function SignOutMessage({ open, onClose, vookData }) {
     const router = useRouter()
+    
   const handleDeleteVook = async () => {
     await axios.delete("/api/vooks", {data:{ id: vookData.id }});
     router.push(`/${vookData.User.username}`)

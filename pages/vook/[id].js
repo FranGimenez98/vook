@@ -55,6 +55,8 @@ export default function VookScreen(props) {
     setIsOpenDelete(true);
   };
 
+  console.log(props?.vook)
+
   return (
     <Layout title={props?.vook?.title} user={props?.vook?.User}>
       <CreateVook

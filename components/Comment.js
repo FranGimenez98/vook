@@ -5,6 +5,7 @@ import CommentOptions from "./CommentOptions";
 import CommentOptionsAlt from "./CommentOptionsAlt";
 import { Menu } from "@headlessui/react";
 import { BsThreeDotsVertical, BsTrashFill } from "react-icons/bs";
+import moment from "moment";
 
 export default function Comment({
   comment,
@@ -13,7 +14,7 @@ export default function Comment({
   sessionUser,
   handleDeleteComment,
 }) {
-  console.log("post", post);
+  console.log("post", comment);
 
   return (
     <div className="flex flex-col gap-1 w-full md:max-w-full py-2 my-2 border-t-[1px] border-gray-100 relative">
@@ -116,6 +117,9 @@ export default function Comment({
 
       <div className="break-words max-w-full">
         <p className="text-base">{comment.message}</p>
+      </div>
+      <div>
+        <p className="text-xs text-slate-500">{moment(comment.createdAt).format("lll")}</p>
       </div>
     </div>
   );

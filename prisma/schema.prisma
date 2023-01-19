@@ -36,7 +36,7 @@ model Vook {
   date        DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  Post        Post[]
+  Post        Post[] 
   User        User     @relation(fields: [userUserId], references: [userId])
   userUserId  Int
 }
@@ -74,6 +74,6 @@ model Like {
   id         Int  @id @default(autoincrement())
   user       User @relation(fields: [userUserId], references: [userId])
   userUserId Int
-  post       Post @relation(fields: [postId], references: [id])
+  post       Post @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId     Int
 }

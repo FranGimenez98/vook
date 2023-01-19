@@ -154,10 +154,10 @@ export default function PostScreen({ post, userData }) {
           </Link>
         </div>
         <div className=" w-full">
-          {/* <div className=" mt-2 text-xl">
+          <div className="text-xl">
             <p>{post.title}</p>
-          </div> */}
-          <div className=" mb-2 text-xl">
+          </div>
+          <div className=" mb-2 text-base">
             <p>{post?.description}</p>
           </div>
         </div>
@@ -278,6 +278,7 @@ export async function getServerSideProps(context) {
           user: true,
           parent: true,
           children: true,
+          createdAt: true,
         },
       },
       createdAt: true,
