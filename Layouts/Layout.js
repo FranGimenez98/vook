@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 import { useSession } from "next-auth/react";
-import { getServerSideProps } from "../pages/vook/[id]";
 
 export default function Layout({ children, title, user }) {
   const { status, data: session } = useSession();

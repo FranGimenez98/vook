@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import axios from "axios";
-import CommentOptions from "./CommentOptions";
-import CommentOptionsAlt from "./CommentOptionsAlt";
 import { Menu } from "@headlessui/react";
 import { BsThreeDotsVertical, BsTrashFill } from "react-icons/bs";
 import moment from "moment";
+import Link from "next/link";
 
 export default function Comment({
   comment,
@@ -14,8 +12,6 @@ export default function Comment({
   sessionUser,
   handleDeleteComment,
 }) {
-  console.log("post", comment);
-
   return (
     <div className="flex flex-col gap-1 w-full md:max-w-full py-2 my-2 border-t-[1px] border-gray-100 relative">
       <div className="absolute top-2 right-1">
@@ -103,23 +99,30 @@ export default function Comment({
       <div className="flex gap-2 items-center">
         <div className="h-8 w-8 rounded-full">
           <div className="rounded-full bg-purple-100 h-full w-full flex items-center justify-center">
-            <img
-              src={comment.user?.image}
-              className="object-cover bg-center rounded-full w-full h-full"
-              alt="profile-pic"
-            />
+            <Link href={`/${comment.user?.username}`}>
+              <img
+                src={comment.user?.image}
+                className="object-cover bg-center rounded-full w-full h-full cursor-pointer"
+                alt="profile-pic"
+              />
+            </Link>
           </div>
         </div>
-        <span className="text-base font-semibold">
-          {comment.user?.username}
-        </span>
+
+        <Link href={`/${comment.user?.username}`}>
+          <span className="text-base font-semibold cursor-pointer">
+            {comment.user?.username}
+          </span>
+        </Link>
       </div>
 
       <div className="break-words max-w-full">
         <p className="text-base">{comment.message}</p>
       </div>
       <div>
-        <p className="text-xs text-slate-500">{moment(comment.createdAt).format("lll")}</p>
+        <p className="text-xs text-slate-500">
+          {moment(comment.createdAt).format("lll")}
+        </p>
       </div>
     </div>
   );

@@ -9,7 +9,6 @@ export default function DeleteMessage({ open, onClose, vookData }) {
     await axios.delete("/api/vooks", {data:{ id: vookData.id }});
     router.push(`/${vookData.User.username}`)
   };
-  console.log("vookdata", vookData)
 
 
   return (

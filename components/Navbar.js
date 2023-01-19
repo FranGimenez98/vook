@@ -9,7 +9,6 @@ import axios from "axios";
 export default function Navbar({ status, session, user }) {
   const [users, setUsers] = useState("");
   const [query, setQuery] = useState("");
-  console.log("users", users);
 
   const filteredUsers = query
     ? users?.filter((user) =>

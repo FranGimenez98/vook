@@ -169,7 +169,7 @@ export default function ProfileScreen({ user, userLoggedData }) {
                   <a>
                     <div className="relative h-[7rem] md:h-[15rem] bg-purple-100 rounded-md">
                       <div className="p-2 w-full absolute bottom-0  flex items-center rounded-b-lg h-8 md:h-9 bg-gradient-to-t from-black/50 to-transparent">
-                        <p className="text-white text-sm">{vook.title}</p>
+                        <p className="text-white text-sm truncate">{vook.title}</p>
                       </div>
 
                       {vook.Post.length <= 0 ? (

@@ -18,11 +18,9 @@ const postSchema = Yup.object().shape({
 export default function CreateVook({ open, onClose, vookData, refreshData }) {
   const [image, setimage] = useState("");
   const [loading, setLoading] = useState("");
-  console.log("image", image.length);
 
   const handleOnChange = async (e) => {
     const files = e.target.files;
-    console.log("file", files);
     const data = new FormData();
     data.append("file", files[0]);
     data.append("upload_preset", "vook_store");

@@ -55,10 +55,9 @@ export default function VookScreen(props) {
     setIsOpenDelete(true);
   };
 
-  console.log(props?.vook)
 
   return (
-    <Layout title={props?.vook?.title} user={props?.vook?.User}>
+    <Layout title={props?.vook?.title} user={props?.userData}>
       <CreateVook
         open={isOpen}
         onClose={() => setIsOpen(false)}
@@ -155,7 +154,7 @@ export default function VookScreen(props) {
 }
 
 export async function getServerSideProps(context) {
-  const userLogged = await getSession(context);
+  const user = await getSession(context);
   const { params } = context;
   const { id } = params;
 
@@ -193,9 +192,23 @@ export async function getServerSideProps(context) {
     },
   });
 
+  const data = await prisma.user.findFirst({
+    where: {
+      userId: user.user.userId,
+    },
+    select: {
+      userId: true,
+      username: true,
+      email: true,
+      image: true,
+      firstName: true,
+    },
+  });
+
   return {
     props: {
       vook: JSON.parse(JSON.stringify(vook)),
+      userData: JSON.parse(JSON.stringify(data)),
     },
   };
 }

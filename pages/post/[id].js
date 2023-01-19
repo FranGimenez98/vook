@@ -115,7 +115,6 @@ export default function PostScreen({ post, userData }) {
       const { data } = await axios.delete(`/api/comment/`, {
         data: { id: id },
       });
-      console.log("delete_data", data);
       commentsContext.dispatch({ type: "DELETE_SUCCESS" });
       const deleteComment = comment.filter((c) => c.id !== id);
       setComment(deleteComment);
