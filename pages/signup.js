@@ -7,15 +7,19 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const loginSchema = Yup.object().shape({
+const signupSchema = Yup.object().shape({
   username: Yup.string()
-    .required("Username is required!")
-    .min(5, "Too short!")
-    .max(15, "Too long!"),
+    .trim("No whitespace")
+    .strict(true)
+    .min(5, "Username is too short!")
+    .max(15, "Username is too long!")
+    .trim("No whitespace")
+    .strict(true)
+    .required("Username is required!"),
   email: Yup.string().email("Invalid email!").required("Email is required!"),
   password: Yup.string()
-    .min(5, "Too short!")
-    .max(15, "Too long!")
+    .min(5, "Password is too short!")
+    .max(15, "Password is too long!")
     .required("Password is required!"),
 });
 
@@ -23,7 +27,6 @@ export default function LoginScreen() {
   const { data: session } = useSession();
   const router = useRouter();
   const { redirect } = router.query;
-
 
   useEffect(() => {
     if (session?.user) {
@@ -40,7 +43,7 @@ export default function LoginScreen() {
             email: "",
             password: "",
           }}
-          validationSchema={loginSchema}
+          validationSchema={signupSchema}
           onSubmit={(values) => {
             axios.post("/api/users", {
               username: values.username,
@@ -56,8 +59,8 @@ export default function LoginScreen() {
               password: values.password,
             });
 
-            if(result.error){
-              console.log("error")
+            if (result.error) {
+              console.log("error");
             }
           }}
         >

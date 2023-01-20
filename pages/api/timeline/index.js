@@ -3,7 +3,7 @@ import { prisma } from "../../../utils/db";
 
 async function handler(req, res) {
   if (req.method === "GET") {
-    const limit = 6;
+    const limit = 10;
     const cursor = req.query.cursor ?? "";
     const cursorObj = cursor === '' ? undefined : { id: parseInt(cursor) };
 

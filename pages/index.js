@@ -73,7 +73,7 @@ export default function Home(props) {
     setSuggestions(suggestions.filter((u) => u.userId !== followingId));
   };
 
-  console.log({ error: error });
+  console.log(data);
 
   return (
     <Layout title="Home" user={props.userData}>
