@@ -91,14 +91,18 @@ export default function Home(props) {
                 <Loader />
               </div>
             ) : props.userData.following.length === 0 ? (
-              <div>No seguis a nadie loco fijate</div>
+              <div>
+                <p className="text-sm text-slate-400">
+                  Follow some users to see their latests posts
+                </p>
+              </div>
             ) : (
               data && (
                 <div className="columns-2 md:columns-5 gap-y-2 w-full md:w-[76%] mb-4">
                   {data?.pages &&
                     data?.pages?.map((page) => {
                       return (
-                        <div key={page?.nextId ?? "lastPage"} className="mb-4">
+                        <div key={page?.nextId ?? "lastPage"} className="mb-4 cursor-pointer">
                           {page?.timeline?.map((post, index) => (
                             <div
                               key={index}

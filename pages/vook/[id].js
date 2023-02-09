@@ -55,6 +55,7 @@ export default function VookScreen(props) {
     setIsOpenDelete(true);
   };
 
+  console.log(props.vook);
 
   return (
     <Layout title={props?.vook?.title} user={props?.userData}>
@@ -107,12 +108,29 @@ export default function VookScreen(props) {
 
           {session?.user.userId == props.vook.User.userId && (
             <div className="flex h-[2rem] gap-1">
-              <button
-                className="button py-1 px-2 text-sm flex items-center gap-2"
+              {props.vook.Post.length > 50 ? (
+                <button
+                  className='button bg-purple-300 py-1 px-2 text-sm flex items-center gap-2 cursor-not-allowed focus:outline-none disabled:opacity-100'
+                >
+                  Add photos <BsFillCameraFill className="text-lg" />
+                </button>
+              ) : (
+                <button
+                  className='button py-1 px-2 text-sm flex items-center gap-2'
+                  onClick={handleOpen}
+                >
+                  Add photos <BsFillCameraFill className="text-lg" />
+                </button>
+              )}
+              {/* <button
+                className={`button py-1 px-2 text-sm flex items-center gap-2 ${
+                  props.vook.Post.length > 0 &&
+                  "cursor-not-allowed focus:outline-none disabled:opacity-100"
+                }`}
                 onClick={handleOpen}
               >
                 Add photos <BsFillCameraFill className="text-lg" />
-              </button>
+              </button> */}
               <VookOptions
                 isOpenDelete={isOpenDelete}
                 isOpenEdit={isOpenEdit}

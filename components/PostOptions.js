@@ -2,7 +2,7 @@ import React from "react";
 import { Menu } from "@headlessui/react";
 import { BsThreeDotsVertical, BsPencilFill, BsTrashFill } from "react-icons/bs";
 
-export default function PostOptions() {
+export default function PostOptions({handleEditPost, handleDeletePost}) {
   return (
     <div>
       <Menu as="div" className="h-full relative">
@@ -19,7 +19,7 @@ export default function PostOptions() {
                   className={`${
                     active ? "bg-[#e9bdff] text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm  gap-2`}
-                  onClick={() => handleChangeEdit()}
+                  onClick={() => handleEditPost()}
                 >
                   <BsPencilFill className="text-[#9d4edd]" />
                   Edit
@@ -32,7 +32,7 @@ export default function PostOptions() {
                   className={`${
                     active ? "bg-[#e9bdff] text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm gap-2 `}
-                  onClick={() => handleChangeDelete()}
+                  onClick={() => handleDeletePost()}
                 >
                   <BsTrashFill className="text-[#9d4edd]" />
                   Delete

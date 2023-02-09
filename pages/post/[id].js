@@ -17,6 +17,8 @@ import { LikesContext } from "../../context/LikesContext";
 import { useRouter } from "next/router";
 import ImageView from "../../components/ImageView";
 import moment from "moment";
+import UpdatePost from "../../components/UpdatePost";
+import DeletePostMessage from "../../components/DeletePostMessage";
 
 export default function PostScreen({ post, userData }) {
   const { data: session } = useSession();
@@ -27,6 +29,10 @@ export default function PostScreen({ post, userData }) {
   const likesContext = useContext(LikesContext);
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState("");
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const router = useRouter();
+  const { redirect } = router.query;
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -36,13 +42,16 @@ export default function PostScreen({ post, userData }) {
     setImage(e);
   };
 
-  const router = useRouter();
   // refresh props
   const refreshData = () => {
     router.replace(router.asPath);
   };
 
   useEffect(() => {
+    if (!session?.user) {
+      router.push(redirect || "/login");
+    }
+
     const fetchData = async () => {
       try {
         commentsContext.dispatch({ type: "FETCH_REQUEST" });
@@ -123,6 +132,16 @@ export default function PostScreen({ post, userData }) {
     }
   };
 
+  const handleEditPost = () => {
+    setIsOpenEdit(true);
+  };
+
+  const handleDeletePost = () => {
+    setIsOpenDelete(true);
+  };
+
+  console.log("post", post);
+
   return (
     <Layout user={userData}>
       <ImageView
@@ -131,12 +150,26 @@ export default function PostScreen({ post, userData }) {
         image={image}
         user={userData}
       />
+      <UpdatePost
+        open={isOpenEdit}
+        onClose={() => setIsOpenEdit(false)}
+        refreshData={refreshData}
+        post={post}
+      />
+      <DeletePostMessage
+        open={isOpenDelete}
+        onClose={() => setIsOpenDelete(false)}
+        post={post}
+      />
       <div className="mt-[4rem] md:w-[60vw] w-screen min-h-[calc(100vh-3rem)] flex flex-col items-center px-4 bg-white md:rounded-lg border-gray-100 border-[0.5px] relative">
         {/* <div className="mt-[1rem] w-screen h-full flex flex-col items-center p-2 relative"> */}
         {post?.User?.userId === userData?.userId && (
           <div className="absolute right-3 top-2 w-[2rem] h-[2rem] flex items-center justify-center transition duration-100">
             {/* <BsThreeDotsVertical className="text-[1.5rem] text-slate-500"/> */}
-            <PostOptions />
+            <PostOptions
+              handleEditPost={handleEditPost}
+              handleDeletePost={handleDeletePost}
+            />
           </div>
         )}
         <div className="flex w-full gap-2 items-center mt-4 mb-2 ">
@@ -149,7 +182,9 @@ export default function PostScreen({ post, userData }) {
             </div>
           </Link>
           <Link href={`/${post.User?.username}`}>
-            <h2 className="text-lg font-medium cursor-pointer">{post.User?.username}</h2>
+            <h2 className="text-lg font-medium cursor-pointer">
+              {post.User?.username}
+            </h2>
           </Link>
         </div>
         <div className=" w-full">
@@ -278,6 +313,11 @@ export async function getServerSideProps(context) {
           parent: true,
           children: true,
           createdAt: true,
+        },
+      },
+      Vook: {
+        select: {
+          id: true,
         },
       },
       createdAt: true,

@@ -1,10 +1,11 @@
 import { Field, Form, Formik, ErrorMessage } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Layouts/Layout";
 import * as Yup from "yup";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
+import { data } from "autoprefixer";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email!").required("Email is required!"),
@@ -16,9 +17,11 @@ const loginSchema = Yup.object().shape({
 
 export default function LoginScreen() {
   // const { isAuth, dispatch } = useContext(AuthContext);
+  const [submitError, setSubmitError] = useState(false);
   const router = useRouter();
   const { redirect } = router.query;
   const { data: session } = useSession();
+  console.log(submitError);
 
   useEffect(() => {
     if (session?.user) {
@@ -36,13 +39,15 @@ export default function LoginScreen() {
             password: "",
           }}
           onSubmit={async (values) => {
-            return await signIn("credentials", {
+            const status = await signIn("credentials", {
               redirect: false,
               email: values.email,
               password: values.password,
-            })
-              .then((error) => console.log(error))
-              .catch((error) => console.log(error));
+            });
+
+            if(!status.ok){
+              setSubmitError(true);
+            }
 
             // loginCall(
             //   {
@@ -86,11 +91,13 @@ export default function LoginScreen() {
                 )}
               />
             </div>
-            <div className="mb-4 ">
+                  
+            <div className="mb-2 ">
               <button className="button py-1 px-3" type="submit">
                 Login
               </button>
             </div>
+            {submitError && <div className="text-red-500 text-base">Wrong email or password</div>}
             <div className="mb-4 ">
               Don&apos;t have an account? &nbsp;
               <Link href="/signup">

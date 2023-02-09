@@ -28,16 +28,14 @@ export default NextAuth({
       id: "credentials",
       name: "credentials",
       authorize: async (credentials) => {
-        const user = await prisma.user.findFirst({
-          where: {
-            email: credentials.email,
-          },
-        });
         try {
-          if (
-            user &&
-            bcryptjs.compareSync(credentials.password, user.password)
-          ) {
+          const user = await prisma.user.findFirst({
+            where: {
+              email: credentials.email,
+            },
+          });
+
+          if (user && bcryptjs.compareSync(credentials.password, user.password)) {
             const userInfo = {
               userId: user.userId,
               name: user.username,
@@ -46,6 +44,8 @@ export default NextAuth({
             return userInfo;
           }
           throw new Error("Invalid email or password");
+
+          
         } catch (err) {
           const errorMessage = err.response.data.message;
           // Redirecting to the login page with error messsage in the URL

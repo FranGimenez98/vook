@@ -20,8 +20,13 @@ export default function ProfileScreen({ user, userLoggedData }) {
   const [follows, setFollows] = useState([]);
   const [userData, setUserData] = useState([]);
   const { data: session } = useSession();
+  const router = useRouter();
+  const { redirect } = router.query;
 
   useEffect(() => {
+    if (!session?.user) {
+      router.push(redirect || "/login");
+    }
     const fetchData = async () => {
       dispatch({ type: "FETCH_REQUEST" });
       dispatch({ type: "FETCH_SUCCESS", payload: userLoggedData.following });
@@ -29,9 +34,8 @@ export default function ProfileScreen({ user, userLoggedData }) {
     fetchData();
     setFollows(state.follow);
     setUserData(user.followedBy);
-  }, [state.follow, user, userLoggedData.following]);
+  }, [state.follow, user, userLoggedData.following, redirect]);
 
-  const router = useRouter();
   // refresh props
   const refreshData = () => {
     router.replace(router.asPath);
@@ -160,7 +164,9 @@ export default function ProfileScreen({ user, userLoggedData }) {
                 )}
               </div>
               <div className="ml-2">
-                <p className="text-sm font-normal text-slate-400">{user?.Vook.length} total</p>
+                <p className="text-sm font-normal text-slate-400">
+                  {user?.Vook.length} total
+                </p>
               </div>
             </div>
             <div className=" grid grid-cols-3 lg:grid-cols-4 gap-2 md:px-0 h-full px-2">
@@ -169,7 +175,9 @@ export default function ProfileScreen({ user, userLoggedData }) {
                   <a>
                     <div className="relative h-[7rem] md:h-[15rem] bg-purple-100 rounded-md">
                       <div className="p-2 w-full absolute bottom-0  flex items-center rounded-b-lg h-8 md:h-9 bg-gradient-to-t from-black/50 to-transparent">
-                        <p className="text-white text-sm truncate">{vook.title}</p>
+                        <p className="text-white text-sm truncate">
+                          {vook.title}
+                        </p>
                       </div>
 
                       {vook.Post.length <= 0 ? (

@@ -12,6 +12,16 @@ async function handler(req, res) {
     try {
       const { username, email, password } = req.body;
 
+      const exists = await prisma.user.findFirst({
+        where: {
+          email: email,
+        },
+      });
+
+      if (exists) {
+        throw new Error("User already exists");
+      }
+
       const profile = await prisma.user.create({
         data: {
           username,
