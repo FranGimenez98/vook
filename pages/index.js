@@ -90,7 +90,7 @@ export default function Home(props) {
               <div className="w-full h-full flex items-center justify-center mt-[10rem]">
                 <Loader />
               </div>
-            ) : props.userData.following.length === 0 ? (
+            ) : props?.userData?.following?.length === 0 ? (
               <div>
                 <p className="text-sm text-slate-400">
                   Follow some users to see their latests posts

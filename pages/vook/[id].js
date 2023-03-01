@@ -212,7 +212,7 @@ export async function getServerSideProps(context) {
 
   const data = await prisma.user.findFirst({
     where: {
-      userId: user.user.userId,
+      userId: user?.user.userId,
     },
     select: {
       userId: true,
